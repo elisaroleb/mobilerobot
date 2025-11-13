@@ -18,7 +18,7 @@ class GUI:
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("Warehouse Simulator - Part 2")
 
-        # Colores
+        # colors
         self.WHITE = (255, 255, 255)
         self.GRAY = (200, 200, 200)
         self.BLACK = (0, 0, 0)
@@ -28,7 +28,7 @@ class GUI:
         self.GREEN = (0, 180, 0)
         self.BLUE2 = (70, 130, 180)
 
-        # Botones
+        # buttons
         self.buttons = {
             "extract": pygame.Rect(10, self.height - 60, 150, 35),
             "reset": pygame.Rect(170, self.height - 60, 100, 35),
@@ -39,7 +39,7 @@ class GUI:
     def draw(self):
         self.screen.fill(self.WHITE)
 
-        # Dibujar la cuadrícula
+        # drawing the grid
         for x in range(self.env.width):
             for y in range(self.env.height):
                 rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
@@ -47,21 +47,21 @@ class GUI:
                 pygame.draw.rect(self.screen, color, rect)
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
 
-        # Dibujar paquetes
+        # drawing the packages
         for pkg in self.packages:
             x, y = pkg.position
             pygame.draw.circle(
                 self.screen, self.ORANGE,
                 (x * CELL_SIZE + CELL_SIZE // 2, y * CELL_SIZE + CELL_SIZE // 2), 15
             )
-            # Dibujar destinos
+            # drawing the destinations
             dx, dy = pkg.destination
             pygame.draw.circle(
                 self.screen, self.RED,
                 (dx * CELL_SIZE + CELL_SIZE // 2, dy * CELL_SIZE + CELL_SIZE // 2), 8, 2
             )
 
-        # Dibujar robots
+        # drawing the robot
         for robot in self.robots:
             x, y = robot.position
             pygame.draw.circle(
@@ -69,7 +69,7 @@ class GUI:
                 (x * CELL_SIZE + CELL_SIZE // 2, y * CELL_SIZE + CELL_SIZE // 2), 22
             )
 
-        # Dibujar botones
+        # drawing the buttons 
         self._draw_buttons()
         pygame.display.flip()
 
@@ -89,7 +89,7 @@ class GUI:
             self.screen.blit(text, text_rect)
 
     def handle_click(self, pos):
-        """Detecta clics en los botones y ejecuta las acciones correspondientes"""
+        """Detects clicks in buttons and executes the determine actions"""
         if self.buttons["extract"].collidepoint(pos):
             print("Extracting current state...")
             extract_state_to_pddl(self.env, self.robots, self.packages)
@@ -108,3 +108,4 @@ class GUI:
             print("Executing plan...")
             executor = PlanExecutor(self.env, self.robots, self.packages, gui=self)
             executor.execute_plan()
+
